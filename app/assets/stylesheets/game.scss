@@ -1,0 +1,93 @@
+// Place all the styles related to the game controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+:root {
+    --text: #dbdfac;
+    --bg: #2a1e5c;
+    --btn-bg: #d7f171;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    color: var(--text);
+    background-color: var(--bg);
+    font-family: 'Nerko One', cursive;
+  }
+  
+  h1 {
+    font-size: 80px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+  
+  .container {
+    height: 100vh;
+    width: 500vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  #board {
+    width: 60vw;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 100px;
+    margin-top: 10px;
+  }
+  
+  .box {
+    height: 20vh;
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: var(--text);
+    border: 1px solid black;
+  }
+  
+  #restart {
+    padding: 10px 20px;
+    background-color: var(--btn-bg);
+    border: none;
+    border-radius: 20px;
+    color: var(--bg);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  input{
+      background-color: white !important;
+  }
+
+  #start-btn{
+      margin-left:38%;
+      margin-top: 2%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .row{
+    width: 200px;
+  }
+
+
+  #modal{
+    position: absolute;
+    width: 400px;
+    height: 250px;
+    z-index: 1;
+    display: flex;
+    visibility: hidden;
+    background-color: var(--bg);
+    border-radius: 22px;
+  }

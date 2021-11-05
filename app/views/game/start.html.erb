@@ -1,0 +1,145 @@
+<div class="container">
+        <h1 id="heading">Play</h1>
+
+        <!-- Player 1 Details -->
+        <div class="row">
+        <div class="col-5">
+        <p style="color:white;"><%= session[:player1] %></p>
+        </div>
+        <div class="col-2" style="color:white;">:</div>
+        <div class="col-5">
+        <p style="color:white;text-align:right;"><%= session[:choice1] %></p>
+        </div>
+        </div>
+        <!-- Player 1 Details Ends -->
+
+        <!-- Player 2 Details -->
+        <div class="row">
+        <div class="col-5">
+        <p style="color:white;"><%= session[:player2] %></p>
+        </div>
+        <div class="col-2" style="color:white;">:</div>
+        <div class="col-5">
+        <p style="color:white;text-align:right;"><%= session[:choice2] %></p>
+        </div>
+        </div>
+        <!-- Player 2 Details Ends -->
+
+        <!-- Playing Details -->
+        <p style="color:yellow;" id="curr_player">sd</p>
+        <!-- Playing Details Ends-->
+
+        <!-- Game Board Section -->
+        <form>
+            <div id="board">
+                <div class="box" id="0" onclick="fillbox(event,0);"></div>
+                <div class="box" id="1" onclick="fillbox(event,1);"></div>
+                <div class="box" id="2" onclick="fillbox(event,2);"></div>
+                <div class="box" id="3" onclick="fillbox(event,3);"></div>
+                <div class="box" id="4" onclick="fillbox(event,4);"></div>
+                <div class="box" id="5" onclick="fillbox(event,5);"></div>
+                <div class="box" id="6" onclick="fillbox(event,6);"></div>
+                <div class="box" id="7" onclick="fillbox(event,7);"></div>
+                <div class="box" id="8" onclick="fillbox(event,8);"></div>
+            </div>
+        </form>
+        <!-- Game Board Section Ends Here -->
+
+        <a id="restart" class="mt-2" href="<%= restart_path %>">End Match</a>
+            
+        
+        <!-- Show Result Modal -->
+        <div class="container" id="modal" data-keyboard="false" data-backdrop="static" style="border-radius:20px;">
+            <h2 id="header_modal" >Congratulations</h2>
+            <p style="color:white;" id="displayresult"></p> 
+            <a class="btn btn-warning" href="<%= restart_path %>">Restart Game</a>           
+            </div>  
+        </div>
+        <!-- Show Result Modal Ends --> 
+
+</div>
+
+<script>
+curr_player_id = 1;
+curr_player_choice = "<%= session[:choice1]%>";
+
+$( document ).ready(function() {
+    var game_status = 0;
+    <% session[:scores].each do |score| %>
+        <% if score != "" %>
+            game_status = 1;
+        <% end %>
+    <% end %>
+
+    if(game_status == 1){
+        var ans = confirm("Do you wanna continue your previous game?")
+        if (ans == true){
+            <% session[:scores].each_with_index do |score, idx| %>
+            $("#<%= idx %>").html("<%= score %>");
+            <% end %>
+            curr_player_id = parseInt("<%= session[:current_player]%>");
+        }
+        else{
+            window.location.href = "<%= restart_path %>";
+        }
+    }
+});
+
+
+function updateplayer(player){
+    $("#curr_player").html(`Player ${player} is playing`);
+}
+updateplayer(curr_player_id);
+
+function display_result(player){
+    if(player == 1){
+        $("#displayresult").html("<%= session[:player1] %> Has Won!");
+        $("#curr_player").html(`Game Ended`);
+    }
+    else{
+        $("#displayresult").html("<%= session[:player2] %> Has Won!");
+        $("#curr_player").html(`Game Ended`);
+    }
+    $("#modal").css("visibility", "visible");
+}
+
+
+function display_data(scores){
+    for(var i = 0; i < scores.length; i++){
+        $(`#${i}`).html(scores[i]);
+    }
+}
+
+
+function fillbox(e,id){
+    e.preventDefault();
+    $.ajax({
+    type: "GET",
+    url: "/stats.json",
+    data: {"id":curr_player_id,"box": id, "choice" : curr_player_choice},
+    cache: false,
+    success: function(result){
+                display_data(result.scores);
+                console.log(result);
+                if(result.turns == 9){
+                    $("#displayresult").html(`Game Has Tied!`);
+                    $("#header_modal").html("Oops!");
+                    $("#modal").css("visibility", "visible");
+                    $("#curr_player").html(`Game Ended`);
+                    return;
+                }
+                if(result.result == "win"){
+                    display_result( curr_player_id );
+                    return;
+                }
+                curr_player_id = (curr_player_id == 1 )? 2 :1
+                curr_player_choice = (curr_player_choice == "X" )? "O" : "X"
+                updateplayer(curr_player_id);
+                return;
+            }
+    
+    });
+}
+
+
+</script>

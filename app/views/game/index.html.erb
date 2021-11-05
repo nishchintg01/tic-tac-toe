@@ -1,0 +1,62 @@
+<div class="container">
+        <h1>Tic Tac Toe</h1>
+        <form method="POST" action="<%= start_path %>">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+
+        <!-- Player One Details -->
+        <div class="row w-100" >
+        <div class="col-6">
+        <input type="text" class="form-control mb-2 mt-2" placeholder="Player 1" name="player1" required/>
+        </div>
+        <div class="col-6">
+        <select class="form-select mt-2" aria-label="Default select example" name="choice1" id="choice1" required="required">
+            <option selected value="X">Select X or O</option>
+            <option value="X">X</option>
+            <option value="O">O</option>
+        </select>
+        </div>
+        </div>
+        <!-- Player One Details Ends Here -->
+
+
+        <!-- Player Two Details -->
+        <div class="row w-100">
+        <div class="col-6">
+        <input type="text" class="form-control" placeholder="Player 2" name="player2" required />
+        </div>
+        <div class="col-6">
+        <select class="form-select " aria-label="Default select example" name="choice2" id="choice2" required>
+            <option selected value="O">Select X or O</option>
+            <option value="X">X</option>
+            <option value="O">O</option>
+        </select>
+        </div>
+        </div>
+        <!-- Player Two Details Ends Here -->
+
+
+        <input type="submit" class="center btn btn-warning mt-2" id="start-btn" value="Start Game">
+        </form>
+</div>
+<script type="text/javascript">
+$("#choice1").change(function(){
+    var option = $(this).find('option:selected');
+    if(option.val() =="X"){
+        $("#choice2").val("O");
+    }
+    else{
+        $("#choice2").val("X");
+    }  
+});
+
+$("#choice2").change(function(){
+    var option = $(this).find('option:selected');
+    if(option.val() =="X"){
+        $("#choice1").val("O");
+    }
+    else{
+        $("#choice1").val("X");
+    }  
+});
+</script>
