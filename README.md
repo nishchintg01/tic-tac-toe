@@ -1,24 +1,31 @@
-# README
+# Tic-Tac-Toe
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installation
 
-Things you may want to cover:
+### Clone the repository
 
-* Ruby version
+```shell
+git clone https://github.com/nishchintg01/tic-tac-toe
+cd tic-tac-toe
+```
 
-* System dependencies
+### Check your Ruby version
 
-* Configuration
+```shell
+ruby -v
+```
+The Project Support ruby version `ruby 2.6.8`
 
-* Database creation
+If not, install the right ruby version using [rbenv](https://github.com/rbenv/rbenv) (it could take a while):
 
-* Database initialization
+### Initialize the database
 
-* How to run the test suite
+```shell
+rails db:migrate 
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Serve
 
-* Deployment instructions
-
-* ...
+```shell
+rails s
+```
